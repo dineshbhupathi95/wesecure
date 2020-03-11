@@ -44,5 +44,5 @@ class GetFileView(RetrieveAPIView):
             data = plugin_name,description,risk_factor
             dataList.append(data)
         # print(dataList)
-        serializer = self.get_serializer(dataList)
+        serializer = self.get_serializer(dataList, many=True)
         return Response(serializer.data)
