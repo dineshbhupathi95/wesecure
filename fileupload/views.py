@@ -5,6 +5,7 @@ from .models import *
 from rest_framework.response import Response
 from rest_framework import views
 from rest_framework.parsers import FileUploadParser
+import xml.dom.minidom
 # Create your views here.
 
 class FileUploadView(ListCreateAPIView):
@@ -12,10 +13,8 @@ class FileUploadView(ListCreateAPIView):
     queryset = Files.objects.all()
     # renderer_classes = (FileUploadParser, )
 
-
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
-
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
@@ -24,10 +23,8 @@ class FileUploadView(ListCreateAPIView):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
-#
-import xml.dom.minidom
 
-class GetFile(RetrieveAPIView):
+class GetFileView(RetrieveAPIView):
     lookup_field = 'id'
     serializer_class = getFileSerializer
     queryset = Files.objects.all()
